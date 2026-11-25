@@ -32,9 +32,19 @@ O público é quem investe por conta própria e está começando. O sistema pega
 ## Valor para o negócio
 
 - O investidor deixa a planilha de lado e vê a conta pronta.
-- O assistente explica a carteira em linguagem simples, sem recomendar compra nem venda.
-- Alertas por e-mail avisam quando a carteira se afasta da meta (testados com servidor fictício).
-- Cada usuário enxerga só a própria carteira.
+- Cada usuário tem login e enxerga só a própria carteira, que pode importar por CSV.
+- O assistente lê a carteira e explica em linguagem simples, sem recomendar compra nem venda.
+- Alertas por e-mail avisam quando a carteira se afasta da meta.
+- Tudo isso já está no ar, com banco de dados online.
+
+## O sistema no ar
+
+<table>
+  <tr>
+    <td align="center"><img src="assets/app-dashboard.png" width="480" alt="Painel do Invest System"><br>Painel com patrimônio total e alocação atual x meta</td>
+    <td align="center"><img src="assets/app-rebalanceamento.png" width="480" alt="Rebalanceamento"><br>Recomendação de quanto comprar ou reduzir</td>
+  </tr>
+</table>
 
 ## Como o sistema decide
 
@@ -48,7 +58,7 @@ Se algum ativo não tem cotação, o sistema avisa o nome dele e o tira do cálc
 - Priorizei o backlog como Product Owner e defini o que significa "pronto".
 - Modelei os dados da carteira, dos usuários e dos alertas.
 - Orientei e revisei o trabalho da IA, que escreveu boa parte do código.
-- Levei o projeto para a internet, numa VPS.
+- Levei o projeto para a internet, numa VPS, com auxílio do professor.
 
 > Boa parte do código foi construída com apoio de IA generativa, e os testes automáticos também (285 testes, revisados por mim); eu defino o que o sistema precisa fazer e reviso o resultado.
 
@@ -57,9 +67,9 @@ Se algum ativo não tem cotação, o sistema avisa o nome dele e o tira do cálc
 | Prática | Como usamos |
 |---|---|
 | Histórias de usuário | 10 histórias, cada uma com critérios de aceite que se respondem com sim ou não |
-| Sprints | Sprints semanais (2 executadas, a 3ª está planejada) |
+| Sprints | Sprints semanais (2 entregues, a 3ª está planejada) |
 | Definition of Ready | História no formato Como/Quero/Para, critérios escritos, pontuada e cabendo em uma sprint |
-| Definition of Done | Critérios cumpridos, testes passando, Pull Request revisado por outro integrante e publicado no link (na Sprint 2, nenhuma história chegou ao fim da Definition of Done) |
+| Definition of Done | Critérios cumpridos, testes passando, Pull Request revisado por outro integrante e publicado no link |
 | Kanban | 5 colunas, com limite de trabalho em andamento (2 em desenvolvimento, 1 em revisão, 1 em validação) |
 | Retrospectiva | Começar, Parar, Continuar |
 | Pull Request | Regra do time: Pull Request revisado por outro integrante (quem escreve não aprova o próprio) |
@@ -70,7 +80,7 @@ Veja o resumo completo em [docs/documentacao-agil.md](docs/documentacao-agil.md)
 
 ![Quadro Kanban](assets/quadro-kanban.png)
 
-*Quadro no fim da primeira semana (17/11), com as histórias nas cinco colunas.*
+*Quadro do projeto em 17/11 (reprodução do board), com as histórias nas cinco colunas.*
 
 ## O que foi difícil e como resolvemos
 
@@ -84,11 +94,11 @@ Veja o resumo completo em [docs/documentacao-agil.md](docs/documentacao-agil.md)
 
 | Já funciona | Ainda não |
 |---|---|
-| Versão da Sprint 1 (rebalanceamento com cotações) implantada numa VPS | Login, importação de CSV, assistente da carteira, banco online e alertas por e-mail estão implementados e testados, mas ainda não foram publicados na VPS |
-| 285 testes automáticos (1 pulado e 1 esperado a falhar) | Alertas por e-mail testados só com servidor fictício, sem envio real |
+| Sprint 1 e Sprint 2 no ar numa VPS: rebalanceamento com cotações, login com carteira separada por usuário, importação de CSV, assistente que lê a carteira, banco online e alertas por e-mail | Publicação automática pendente |
+| 285 testes automáticos (1 pulado e 1 esperado a falhar) | Domínio próprio ainda não contratado |
 | Suporte a PostgreSQL no código | PostgreSQL verificado só em SQLite |
-| HTTPS configurado | Certificado ainda não emitido, e ainda sem domínio |
-| Verificações automáticas a cada alteração | Publicação automática pendente |
+| HTTPS configurado | Certificado ainda não emitido |
+| Verificações automáticas a cada alteração | |
 
 Stack: Python, Streamlit, SQLite e PostgreSQL, Docker Compose, nginx e GitHub Actions.
 

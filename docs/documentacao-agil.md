@@ -1,6 +1,6 @@
 # Invest System: documentação ágil (resumo)
 
-Resumo do relatório entregue no fim da Sprint 2 (24/11), em versão pública. O projeto é meu e já existia antes da disciplina de Métodos Ágeis (UMC); nela, trabalhamos em dupla, eu como Product Owner e um colega como Scrum Master do time.
+Resumo do relatório entregue no fim da Sprint 2 (24/11), em versão pública. Depois dele, as funções da Sprint 2 (login, importação de CSV, assistente da carteira, banco online e alertas por e-mail) foram publicadas e estão no ar. O projeto é meu e já existia antes da disciplina de Métodos Ágeis (UMC); nela, trabalhamos em dupla, eu como Product Owner e um colega como Scrum Master do time.
 
 ## Problema e público
 
@@ -75,8 +75,8 @@ Regra do time: o código escrito com IA deve entrar por Pull Request revisado po
 
 ## Próximos passos
 
-1. Publicar na VPS as funcionalidades da Sprint 2 e passar cada uma pela Definition of Done.
-2. Verificar o banco PostgreSQL e o envio real de e-mail.
+1. Passar cada função da Sprint 2 pela Definition of Done.
+2. Verificar o banco PostgreSQL.
 3. Emitir o certificado HTTPS (precisa de domínio).
 4. Publicação automática a cada alteração na main.
 5. Novo teste com alguém de fora, cobrindo o rebalanceamento.
