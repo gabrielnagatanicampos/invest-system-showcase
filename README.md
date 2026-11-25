@@ -1,92 +1,97 @@
 <div align="center">
 
-# Invest System
+# Invest System: Smart Portfolio Management & Data Pipeline
 
-**Rebalanceamento de carteira com defesa em camadas contra prompt injection**
+**Calcula quanto comprar ou vender de cada ativo para a carteira voltar às metas do investidor.**
 
 ![Python](https://img.shields.io/badge/Python-0B1220?style=for-the-badge&logo=python&logoColor=3B82F6)
 ![Streamlit](https://img.shields.io/badge/Streamlit-0B1220?style=for-the-badge&logo=streamlit&logoColor=3B82F6)
 ![SQLite](https://img.shields.io/badge/SQLite-0B1220?style=for-the-badge&logo=sqlite&logoColor=3B82F6)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-suporte-0B1220?style=for-the-badge&logo=postgresql&logoColor=3B82F6)
 ![Docker](https://img.shields.io/badge/Docker_Compose-0B1220?style=for-the-badge&logo=docker&logoColor=3B82F6)
-![nginx](https://img.shields.io/badge/nginx-0B1220?style=for-the-badge&logo=nginx&logoColor=3B82F6)
-![GitHub Actions](https://img.shields.io/badge/CI-GitHub_Actions-0B1220?style=for-the-badge&logo=githubactions&logoColor=3B82F6)
+![Scrum](https://img.shields.io/badge/Scrum-Product_Owner-0B1220?style=for-the-badge&logo=jira&logoColor=3B82F6)
 
 </div>
 
-> **Aviso.** Este repositório é uma vitrine. O código do Invest System é **privado**. Esta página descreve o que foi construído, usando apenas fatos que consigo sustentar.
+> O código é privado. Esta página mostra o que foi construído e qual foi o meu papel, só com o que consigo comprovar.
 
-## O que é
+## Como nasceu
 
-Projeto **próprio** do Gabriel, que ganhou outra proporção ao ser integrado à disciplina de **Métodos Ágeis** (UMC), feito **em dupla**, com Gabriel como **Product Owner**. A integração trouxe atualizações, alertas por e-mail e a subida para uma VPS com auxílio do professor. O sistema ajuda no **rebalanceamento de carteira**. Foi **aprovado na 4ª edição do UMC Summit (categoria Inovação)**.
+O Invest System é um projeto **meu**, que comecei antes de qualquer entrega de disciplina (o histórico no Git tem commits desde setembro). Na disciplina de Métodos Ágeis da UMC, em dupla, usei o projeto como alavanca para quatro coisas: ampliar as funcionalidades, ganhar visão de negócio, levar o sistema para a internet (numa VPS, com auxílio do professor) e praticar metodologias ágeis na prática.
 
-Método: **Scrum**, com sprints semanais, backlog, Definition of Done e revisão por Pull Request.
+Com esse trabalho, fui selecionado para a **4ª edição do UMC Summit, na categoria Inovação**.
 
-## Arquitetura
+Meu papel: **Product Owner**. O Scrum Master do time foi meu colega de dupla.
 
-```mermaid
-flowchart LR
-    U([Usuário]) --> N[nginx<br/>WebSocket e redirect HTTP para HTTPS]
-    N --> S[Streamlit<br/>app Python]
-    S --> Y[yfinance<br/>cotações]
-    S --> DB[(SQLite / PostgreSQL)]
-    S --> G[Camada de defesa<br/>contra prompt injection]
-    G --> F{Failover de LLM}
-    F -->|principal| Q[Groq]
-    F -->|alternativa| V[NVIDIA]
-    S --> E[Alertas por e-mail<br/>cooldown de 30 min]
-    J[Job] --> DB
-```
+## O problema e a ideia
 
-Deploy com Docker Compose (app, PostgreSQL e job), nginx e certbot em uma VPS. O HTTPS está **configurado**, mas o certificado ainda não foi emitido.
+Os preços mudam todo dia, e aos poucos alguns ativos passam a pesar mais ou menos do que a meta do investidor. Descobrir quanto comprar ou vender de cada um exige planilha e conta manual. Quem não tem o valor mínimo exigido pelas gestoras acaba fazendo isso sozinho, muitas vezes sem entender o que está comprando.
 
-## Defesa contra prompt injection
+O público é quem investe por conta própria e está começando. O sistema pega as cotações do dia e diz, em reais, quanto comprar ou vender de cada ativo.
 
-```mermaid
-flowchart LR
-    A[Entrada] --> B[1. Validação e<br/>normalização]
-    B --> C[2. Limite de<br/>histórico]
-    C --> D[3. Dados em bloco<br/>delimitado]
-    D --> M[(LLM)]
-    M --> E[4. Sanitização<br/>de saída]
-    E --> F[5. Token canário]
-    F --> R[Resposta]
-```
+## Valor para o negócio
 
-| Camada | O que faz |
+- O investidor deixa a planilha de lado e vê a conta pronta.
+- O assistente explica a carteira em linguagem simples, sem recomendar compra nem venda.
+- Alertas por e-mail avisam quando a carteira se afasta da meta (testados com servidor fictício).
+- Cada usuário enxerga só a própria carteira.
+
+## Como o sistema decide
+
+![Fluxo do rebalanceamento](assets/fluxo-bpmn.png)
+
+Se algum ativo não tem cotação, o sistema avisa o nome dele e o tira do cálculo, em vez de mostrar um número errado.
+
+## O que eu fiz neste projeto
+
+- Levantei os requisitos e as regras de negócio e escrevi as histórias de usuário com critérios de aceite.
+- Priorizei o backlog como Product Owner e defini o que significa "pronto".
+- Modelei os dados da carteira, dos usuários e dos alertas.
+- Orientei e revisei o trabalho da IA, que escreveu boa parte do código.
+- Levei o projeto para a internet, numa VPS.
+
+> Boa parte do código foi construída com apoio de IA generativa, e os testes automáticos também (285 testes, revisados por mim); eu defino o que o sistema precisa fazer e reviso o resultado.
+
+## Gestão ágil na prática
+
+| Prática | Como usamos |
 |---|---|
-| Validação de entrada | Valida e normaliza o que o usuário envia |
-| Limite de histórico | Restringe quanto contexto anterior entra no prompt |
-| Dados em bloco delimitado | Separa dados do usuário das instruções |
-| Sanitização de saída | Limpa a resposta antes de exibir |
-| Token canário | Detecta vazamento do prompt |
+| Histórias de usuário | 10 histórias, cada uma com critérios de aceite que se respondem com sim ou não |
+| Sprints | Sprints semanais (2 executadas, a 3ª está planejada) |
+| Definition of Ready | História no formato Como/Quero/Para, critérios escritos, pontuada e cabendo em uma sprint |
+| Definition of Done | Critérios cumpridos, testes passando, Pull Request revisado por outro integrante e publicado no link (na Sprint 2, nenhuma história chegou ao fim da Definition of Done) |
+| Kanban | 5 colunas, com limite de trabalho em andamento (2 em desenvolvimento, 1 em revisão, 1 em validação) |
+| Retrospectiva | Começar, Parar, Continuar |
+| Pull Request | Regra do time: Pull Request revisado por outro integrante (quem escreve não aprova o próprio) |
 
-**Resultado em testes:** 31 de 40 tentativas de contorno bloqueadas e **0 de 37** perguntas legítimas recusadas. Ou seja, 9 contornos ainda passam. A defesa reduz o risco, não o elimina.
+Veja o resumo completo em [docs/documentacao-agil.md](docs/documentacao-agil.md).
 
-## Outros recursos
+## Como organizamos o trabalho
 
-| Recurso | Detalhe |
+![Quadro Kanban](assets/quadro-kanban.png)
+
+*Quadro no fim da primeira semana (17/11), com as histórias nas cinco colunas.*
+
+## O que foi difícil e como resolvemos
+
+**Ativos sem preço.** Alguns ativos apareciam sem cotação. A IA levantou hipóteses (fusão de empresas, mudança de nome), mas os dados não provavam nenhuma. Mantive só o que foi conferido: 8 códigos tinham mudado e o novo tinha preço; 8 deixaram de existir. Hoje o sistema avisa na tela quando falta cotação.
+
+**O chat respondia erro até para "oi".** A integração com o provedor de IA tinha sido aprovada só com um cliente simulado, sem nenhuma chamada real. Quando rodou de verdade, o provedor recusava a chamada. Corrigimos e criamos uma regra: toda integração externa precisa de pelo menos uma chamada real antes de ser aprovada.
+
+**Quantidade do CSV sem limite máximo.** Na importação de carteira, um número gigante na coluna de quantidade quebraria a gravação no banco. Achei na revisão, e a importação passou a recusar valores acima do limite.
+
+## Estado atual
+
+| Já funciona | Ainda não |
 |---|---|
-| Failover entre provedores de LLM | Groq e NVIDIA, acionado por erro de rede, limite 429 e erro 5xx |
-| Alertas por e-mail | Com cooldown de 30 minutos |
-| Importação CSV | Com proteção contra injeção de fórmula |
-| Telemetria | A telemetria de terceiros do Streamlit foi investigada e desligada |
-| Banco | Suporte a PostgreSQL, verificado em SQLite |
-| Qualidade | 285 testes pytest, CI no GitHub Actions |
+| Versão da Sprint 1 (rebalanceamento com cotações) implantada numa VPS | Login, importação de CSV, assistente da carteira, banco online e alertas por e-mail estão implementados e testados, mas ainda não foram publicados na VPS |
+| 285 testes automáticos (1 pulado e 1 esperado a falhar) | Alertas por e-mail testados só com servidor fictício, sem envio real |
+| Suporte a PostgreSQL no código | PostgreSQL verificado só em SQLite |
+| HTTPS configurado | Certificado ainda não emitido, e ainda sem domínio |
+| Verificações automáticas a cada alteração | Publicação automática pendente |
 
-## O que está provado e o que ainda não foi
-
-| O que está provado | O que ainda não foi provado |
-|---|---|
-| 285 testes pytest | Chat com Groq e NVIDIA reais (os testes usam cliente simulado) |
-| 31 de 40 contornos bloqueados, 0 de 37 perguntas legítimas recusadas | Emissão real do certificado HTTPS (nginx e certbot estão **configurados**) |
-| Alertas com cooldown e importação CSV cobertos por testes | PostgreSQL rodando de fato (verificado só em SQLite) |
-| Aprovação na 4ª edição do UMC Summit | Uso por pessoas reais |
-
-## Como foi feito
-
-Trabalho em dupla, com **IA generativa (Claude Code)** usada com disciplina de engenharia: revisão por Pull Request, testes e Definition of Done.
+Stack: Python, Streamlit, SQLite e PostgreSQL, Docker Compose, nginx e GitHub Actions.
 
 ## Autor
 
-Gabriel Nagatani Campos, autor do projeto e Product Owner na disciplina. [Portfólio](https://gabrielnagatanicampos.github.io)
+Gabriel Nagatani Campos, estudante de Engenharia de Software (UMC). [Portfólio](https://gabrielnagatanicampos.github.io)
