@@ -80,7 +80,7 @@ flowchart LR
 |---|---|
 | 285 testes pytest | Chat com Groq e NVIDIA reais (os testes usam cliente simulado) |
 | 31 de 40 contornos bloqueados, 0 de 37 perguntas legítimas recusadas | Emissão real do certificado HTTPS (nginx e certbot estão **configurados**) |
-| Failover, alertas com cooldown e importação CSV cobertos por testes | PostgreSQL rodando de fato (verificado só em SQLite) |
+| Alertas com cooldown e importação CSV cobertos por testes | PostgreSQL rodando de fato (verificado só em SQLite) |
 | Aprovação na 4ª edição do UMC Summit | Uso por pessoas reais |
 
 ## Como foi feito
