@@ -18,7 +18,7 @@
 
 ## O que é
 
-Projeto da disciplina de **Métodos Ágeis** (UMC), feito **em dupla**, com Gabriel como **Product Owner**. O sistema ajuda no **rebalanceamento de carteira**. Foi **aprovado na 4ª edição do UMC Summit (categoria Inovação)**.
+Projeto **próprio** do Gabriel, que ganhou outra proporção ao ser integrado à disciplina de **Métodos Ágeis** (UMC), feito **em dupla**, com Gabriel como **Product Owner**. A integração trouxe atualizações, alertas por e-mail e a subida para uma VPS com auxílio do professor. O sistema ajuda no **rebalanceamento de carteira**. Foi **aprovado na 4ª edição do UMC Summit (categoria Inovação)**.
 
 Método: **Scrum**, com sprints semanais, backlog, Definition of Done e revisão por Pull Request.
 
@@ -89,4 +89,4 @@ Trabalho em dupla, com **IA generativa (Claude Code)** usada com disciplina de e
 
 ## Autor
 
-Gabriel Nagatani Campos, Product Owner do projeto. [Portfólio](https://gabrielnagatanicampos.github.io)
+Gabriel Nagatani Campos, autor do projeto e Product Owner na disciplina. [Portfólio](https://gabrielnagatanicampos.github.io)
